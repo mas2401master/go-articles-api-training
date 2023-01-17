@@ -1,0 +1,962 @@
+definitions:
+  dto.ItemDTOCreate:
+    properties:
+      description:
+        maxLength: 300
+        minLength: 3
+        type: string
+      name:
+        maxLength: 20
+        minLength: 3
+        type: string
+      price:
+        minimum: 1
+        type: number
+    required:
+    - name
+    - price
+    type: object
+  dto.ItemDTOUpdate:
+    properties:
+      available:
+        type: boolean
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      status:
+        type: boolean
+    type: object
+  dto.Logedin:
+    properties:
+      X-USERID:
+        type: string
+      firsname:
+        type: string
+      lastname:
+        type: string
+      token:
+        type: string
+    type: object
+  dto.LoginDTO:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  dto.MessageInfo:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  dto.OrderDTOCreate:
+    properties:
+      code:
+        type: string
+      item_id:
+        type: integer
+      price:
+        type: number
+      quantity:
+        minimum: 1
+        type: integer
+    required:
+    - item_id
+    - quantity
+    type: object
+  dto.OrderDTOUpdate:
+    properties:
+      code:
+        type: string
+      status:
+        type: string
+    type: object
+  dto.OrderItemDTO:
+    properties:
+      item_id:
+        type: integer
+      quantity:
+        minimum: 1
+        type: integer
+    required:
+    - item_id
+    - quantity
+    type: object
+  dto.PromotionDTOCreate:
+    properties:
+      code:
+        maxLength: 20
+        minLength: 3
+        type: string
+      discount:
+        minimum: 1
+        type: number
+      name:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - code
+    - discount
+    - name
+    type: object
+  dto.PromotionDTOUpdate:
+    properties:
+      code:
+        type: string
+      discount:
+        type: number
+      name:
+        type: string
+      used:
+        type: boolean
+    type: object
+  dto.UserDTO:
+    properties:
+      email:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      password:
+        type: string
+      role_id:
+        type: integer
+      status:
+        type: boolean
+      username:
+        type: string
+    required:
+    - password
+    - role_id
+    - username
+    type: object
+  dto.UserDTOOrder:
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.UserUpdateDTO:
+    properties:
+      email:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      password:
+        type: string
+      role_id:
+        type: integer
+      status:
+        type: boolean
+      username:
+        type: string
+    type: object
+  models.Item:
+    properties:
+      available:
+        type: boolean
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      status:
+        type: boolean
+      updated_at:
+        type: string
+    type: object
+  models.Order:
+    properties:
+      created_at:
+        type: string
+      detail_order:
+        items:
+          $ref: '#/definitions/models.OrderItems'
+        type: array
+      id:
+        type: integer
+      order_number:
+        type: integer
+      promotion:
+        $ref: '#/definitions/dto.PromotionDTOCreate'
+      promotion_id:
+        type: integer
+      quantity:
+        type: integer
+      status:
+        type: string
+      subtotal:
+        type: number
+      total:
+        type: number
+      total_discount:
+        type: number
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/dto.UserDTOOrder'
+      user_id:
+        type: integer
+    type: object
+  models.OrderItems:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      item_id:
+        type: integer
+      name_item:
+        type: string
+      order_id:
+        type: integer
+      price:
+        type: number
+      quantity:
+        type: integer
+      status:
+        type: string
+      total:
+        type: number
+      updated_at:
+        type: string
+    type: object
+  models.Promotion:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      discount:
+        type: number
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+      used:
+        type: boolean
+    type: object
+  models.Role:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      firstname:
+        type: string
+      id:
+        type: integer
+      lastname:
+        type: string
+      password:
+        type: string
+      role:
+        $ref: '#/definitions/models.Role'
+      role_id:
+        type: integer
+      status:
+        type: boolean
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/items:
+    get:
+      description: Lista articulos registrados con status ACTIVO valida autorizacion
+        de usuario
+      parameters:
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: available
+        in: query
+        name: available
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Item'
+            type: array
+      security:
+      - Authorization Token: []
+      summary: Recupera un listado de Articulos registrados
+      tags:
+      - Items
+  /api/v1/items/{id}:
+    delete:
+      description: Elimina un arituculo  segun su ID valida autorizacion de usuario;
+        existencia del articulo a eliminar; Articulo no asociado a una orden
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Elimina un articulo segun su ID
+      tags:
+      - Items
+    get:
+      description: Obtiene informacion del articulo segun su ID Valida autorizacion
+        de usuario; existencia del articulo a mostrar; usuario cliente sin acceso
+        al articulo con status falso
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Item'
+      security:
+      - Authorization Token: []
+      summary: Recupera un articuulos segun su ID
+      tags:
+      - Items
+    post:
+      consumes:
+      - application/json
+      description: El articulo se crea en status activo; Valida autorizacion de usuario
+      parameters:
+      - description: create item
+        in: body
+        name: ItemDTO
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ItemDTOCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Crea el registro de un articulo
+      tags:
+      - Items
+    put:
+      description: modifica el articulo segun su ID valida autorizacion de usuario;
+        existencia del articulo a editar;
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: create item
+        in: body
+        name: itemdto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ItemDTOUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Item'
+      security:
+      - Authorization Token: []
+      summary: Modifica un articulo segun su ID
+      tags:
+      - Items
+  /api/v1/login:
+    post:
+      consumes:
+      - application/json
+      description: Crea genera token jwt
+      parameters:
+      - description: Login
+        in: body
+        name: userdto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Logedin'
+      summary: Crea token de autorizacion de usuario
+      tags:
+      - Login
+  /api/v1/orders:
+    get:
+      description: Lista Ordenes registradas por los usuarios clientes
+      parameters:
+      - description: status
+        in: query
+        name: status
+        required: true
+        type: string
+      - description: code
+        in: query
+        name: code
+        required: true
+        type: string
+      - description: username
+        in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Order'
+            type: array
+      security:
+      - Authorization Token: []
+      summary: Recupera un listado Ordenes
+      tags:
+      - Order
+    post:
+      consumes:
+      - application/json
+      description: Se crean ordenes con status en Revision, se crea el detalle valida
+        Autorizacion del usuario;Que no exista orden ya creada (status R); Que exista
+        el articulo y que este disponible para crear el detalle; Que exista el codigo
+        de promocion
+      parameters:
+      - description: Create order
+        in: body
+        name: orderdto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.OrderDTOCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Crea registro de las ordenes de los
+      tags:
+      - Order
+      - Promotion
+  /api/v1/orders/{id}:
+    delete:
+      description: 'Elimina una orden y su detalla, libera disponibilidad de articulos
+        y promociones asociadas. Valida: 1.- que el usuario este autorizado;2.-Que
+        exista la orden registrada. 3.-Que no se elimine la orden si no pertenece
+        al usuario (cliente).'
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Elimina una Orden segun su ID
+      tags:
+      - Order
+    get:
+      description: Obtiene informacion de la orden segun su ID Valida orden a mostrar
+        asociada a usuario de session para el rol cliente
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+      security:
+      - Authorization Token: []
+      summary: Recupera una Orden segun su ID
+      tags:
+      - Order
+    put:
+      consumes:
+      - application/json
+      description: modifica la Orden (promocion y status) segun su ID valida Autorizacion
+        del usuario; Que el status de entrada sea R/C; Que exista la orden a editar;
+        Que la orden pertenezca al usuario (cliente); Que exista el codigo de promocion
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Edit order
+        in: body
+        name: orderdto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.OrderDTOUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+      security:
+      - Authorization Token: []
+      summary: Modifica una Orden segun su ID
+      tags:
+      - Order
+  /api/v1/orders/detail/{id}:
+    delete:
+      description: Elimina una un detalle de la orden, libera disponibilidad de articulo
+        asociado. valida  usuario autorizado; existencia del detalle; orden asociada
+        a usuario de session para el rol cliente; existencia  del artiulo a ser eliminado
+        al detalle de la orden.
+      parameters:
+      - description: Detail ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Elimina un detalle de la Orden segun su ID
+      tags:
+      - Order Detail
+    get:
+      description: Obtiene el detalle de la order segun su ID Valida usuario autorizado;
+        existencia del detalla; detalle a mostrar asociada a usuario de session para
+        el rol cliente
+      parameters:
+      - description: Detail ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderItems'
+      security:
+      - Authorization Token: []
+      summary: Recupera una Orden segun su ID
+      tags:
+      - Order Detail
+    post:
+      consumes:
+      - application/json
+      description: Crea el detalle de la orden valida  usuario autorizado; existencia
+        de la orden a agregar el detalle; orden asociada a usuario de session para
+        el rol cliente; existencia y disponibilidad del artiulo a ser agregado al
+        detalle de la orden
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Create detail order
+        in: body
+        name: orderitemdto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.OrderItemDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Crea registro de las ordenes de los
+      tags:
+      - Order Detail
+    put:
+      consumes:
+      - application/json
+      description: modifica el detalle de la orden segun su ID valida  usuario autorizado;
+        existencia del detalle; orden asociada a usuario de session para el rol cliente;
+        existencia  del artiulo a ser editado al detalle de la orden
+      parameters:
+      - description: Detail ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Create detail order
+        in: body
+        name: orderitemdto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.OrderItemDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OrderItems'
+      security:
+      - Authorization Token: []
+      summary: Modifica una Orden segun su ID
+      tags:
+      - Order Detail
+  /api/v1/orders/details/{id}:
+    get:
+      description: Lista detalle de la orden valida  usuario autorizado; existencia
+        de orden; detalle de orden a mostrar asociado a usuario de session para el
+        rol cliente
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.OrderItems'
+            type: array
+      security:
+      - Authorization Token: []
+      summary: Recupera listado de articulos de detalle de la orden
+      tags:
+      - Order Detail
+  /api/v1/promotion:
+    get:
+      description: Lista Promociones registradas. Valida autorizacion de usuario
+      parameters:
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: code
+        in: query
+        name: code
+        required: true
+        type: string
+      - description: code
+        in: query
+        name: used
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Promotion'
+            type: array
+      security:
+      - Authorization Token: []
+      summary: Recupera un listado de las Promociones registrados
+      tags:
+      - Promotion
+    post:
+      consumes:
+      - application/json
+      description: Las promociones se crean con Usado en falso Valida autorizacion
+        de usuario; que el codigo de promocion no este registrado
+      parameters:
+      - description: create promotion
+        in: body
+        name: PromoDTO
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PromotionDTOCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Crea registro de promociones de los
+      tags:
+      - Promotion
+  /api/v1/promotion/{id}:
+    delete:
+      description: Elimina una promocion segun su ID Valida Autorizacion de usuario;
+        promocion a eliminar exista; promocion asociada a una orden
+      parameters:
+      - description: Promotion ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Elimina una promocion segun su ID
+      tags:
+      - Promotion
+    get:
+      description: Obtiene informacion de la Promocion segun su ID Valida autorizacion
+        de usuario; existencia de promocion a mostrar
+      parameters:
+      - description: Promotion ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Promotion'
+      security:
+      - Authorization Token: []
+      summary: Recupera una Promocion segun su ID
+      tags:
+      - Promotion
+    put:
+      consumes:
+      - application/json
+      description: modifica la promocion segun su ID Valida autorizacion de usuario;
+        que exista la promocion a editar; que el codigo de promocion no este registrado
+      parameters:
+      - description: Promotion ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: update promotion
+        in: body
+        name: PromoDTO
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PromotionDTOUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Promotion'
+      security:
+      - Authorization Token: []
+      summary: Modifica una Promocion segun su ID
+      tags:
+      - Promotion
+  /api/v1/users:
+    get:
+      description: Lista Usuarios registradas Valida autorizacion de usuario
+      parameters:
+      - description: status
+        in: query
+        name: status
+        required: true
+        type: string
+      - description: role
+        in: query
+        name: role
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      security:
+      - Authorization Token: []
+      summary: Recupera un listado de las Usuarios registrados
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Crea registro de usuarios tipo CLIENTE y ADMIN Valida que el nombre
+        de usuario no exista
+      parameters:
+      - description: Create user
+        in: body
+        name: userdto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Crea registro de los usuarios
+      tags:
+      - User
+  /api/v1/users/{id}:
+    delete:
+      description: Elimina una usuario segun su ID Valida autorizacion de usuario;
+        existencia de usuario a eliminar;usuario no asociado a una orden
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/dto.MessageInfo'
+      security:
+      - Authorization Token: []
+      summary: Elimina un usuario segun su ID
+      tags:
+      - User
+    get:
+      description: Obtiene informacion del usuario segun su ID Valida autorizacion
+        de usuario, usuario a mostrar asociado a usuario de session para el rol cliente
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      security:
+      - Authorization Token: []
+      summary: Recupera una Usuario segun su ID
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: modifica usuario segun su ID Valida autorizacion de usuario; existencia
+        de usuario a editar; existencia del username; usuario a editar asociado a
+        usuario de session para el rol cliente
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Edit user
+        in: body
+        name: userdto
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      security:
+      - Authorization Token: []
+      summary: Modifica un Usuario segun su ID
+      tags:
+      - User
+swagger: "2.0"

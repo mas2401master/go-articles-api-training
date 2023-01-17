@@ -1,0 +1,41 @@
+[GIN-debug] POST   /api/v1/login             --> github.com/mas2401master/go-articles-api-training/internal/api/controller.Login (4 handlers)
+[GIN-debug] GET    /docs/*any                --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (4 handlers)
+[GIN-debug] GET    /api/v1/users             --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetUsers (5 handlers)
+[GIN-debug] GET    /api/v1/users/:id         --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetUserById (5 handlers)
+[GIN-debug] POST   /api/v1/users             --> github.com/mas2401master/go-articles-api-training/internal/api/controller.CreateUser (5 handlers)
+[GIN-debug] PUT    /api/v1/users/:id         --> github.com/mas2401master/go-articles-api-training/internal/api/controller.UpdateUser (5 handlers)
+[GIN-debug] DELETE /api/v1/users/:id         --> github.com/mas2401master/go-articles-api-training/internal/api/controller.DeleteUser (5 handlers)
+[GIN-debug] GET    /api/v1/items             --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetItems (5 handlers)
+[GIN-debug] GET    /api/v1/items/:id         --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetItemById (5 handlers)
+[GIN-debug] POST   /api/v1/items             --> github.com/mas2401master/go-articles-api-training/internal/api/controller.CreateItem (5 handlers)
+[GIN-debug] PUT    /api/v1/items/:id         --> github.com/mas2401master/go-articles-api-training/internal/api/controller.UpdateItem (5 handlers)
+[GIN-debug] DELETE /api/v1/items/:id         --> github.com/mas2401master/go-articles-api-training/internal/api/controller.DeleteItem (5 handlers)
+[GIN-debug] GET    /api/v1/promotion         --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetPromotions (5 handlers)
+[GIN-debug] GET    /api/v1/promotion/:id     --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetPromotionById (5 handlers)
+[GIN-debug] POST   /api/v1/promotion         --> github.com/mas2401master/go-articles-api-training/internal/api/controller.CreatePromotion (5 handlers)
+[GIN-debug] PUT    /api/v1/promotion/:id     --> github.com/mas2401master/go-articles-api-training/internal/api/controller.UpdatePromotion (5 handlers)
+[GIN-debug] DELETE /api/v1/promotion/:id     --> github.com/mas2401master/go-articles-api-training/internal/api/controller.DeletePromotion (5 handlers)
+[GIN-debug] GET    /api/v1/orders            --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetOrder (5 handlers)
+[GIN-debug] GET    /api/v1/orders/:id        --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetOrderById (5 handlers)
+[GIN-debug] POST   /api/v1/orders            --> github.com/mas2401master/go-articles-api-training/internal/api/controller.CreateOrder (5 handlers)
+[GIN-debug] PUT    /api/v1/orders/:id        --> github.com/mas2401master/go-articles-api-training/internal/api/controller.UpdateOrder (5 handlers)
+[GIN-debug] DELETE /api/v1/orders/:id        --> github.com/mas2401master/go-articles-api-training/internal/api/controller.DeleteOrder (5 handlers)
+[GIN-debug] GET    /api/v1/orders/details/:id --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetOrderItem (5 handlers)
+[GIN-debug] GET    /api/v1/orders/detail/:id --> github.com/mas2401master/go-articles-api-training/internal/api/controller.GetOrderItemById (5 handlers)
+[GIN-debug] POST   /api/v1/orders/detail/:id --> github.com/mas2401master/go-articles-api-training/internal/api/controller.CreateOrderItem (5 handlers)
+[GIN-debug] PUT    /api/v1/orders/detail/:id --> github.com/mas2401master/go-articles-api-training/internal/api/controller.UpdateOrderItem (5 handlers)
+[GIN-debug] DELETE /api/v1/orders/detail/:id --> github.com/mas2401master/go-articles-api-training/internal/api/controller.DeleteOrderItem (5 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :3000
+::1 - - [19/Dec/2022:13:14:29 -0400] "GET /api/v1/orders HTTP/1.1 404 368.1986ms " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:16:12 -0400] "POST /api/v1/orders HTTP/1.1 201 6.1405872s " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:16:23 -0400] "GET /api/v1/orders HTTP/1.1 200 738.8108ms " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:16:46 -0400] "GET /api/v1/orders/1 HTTP/1.1 200 791.3995ms " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:17:30 -0400] "PUT /api/v1/orders/1 HTTP/1.1 200 3.6192603s " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:17:44 -0400] "PUT /api/v1/orders/1 HTTP/1.1 200 3.0057836s " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:19:01 -0400] "POST /api/v1/orders/detail/1 HTTP/1.1 200 4.4357358s " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:19:08 -0400] "GET /api/v1/orders/detail/1 HTTP/1.1 200 1.1419776s " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:19:32 -0400] "GET /api/v1/orders/details/1 HTTP/1.1 200 1.2196442s " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:19:59 -0400] "PUT /api/v1/orders/detail/1 HTTP/1.1 200 4.7379456s " " PostmanRuntime/7.30.0" " "
+::1 - - [19/Dec/2022:13:20:11 -0400] "GET /api/v1/orders/details/1 HTTP/1.1 200 1.3386716s " " PostmanRuntime/7.30.0" " "
